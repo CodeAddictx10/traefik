@@ -1,0 +1,29 @@
+services:
+  traefik:
+    image: traefik:v2.11
+    container_name: traefik
+    restart: always
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
+      # - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.leresolver.acme.email=samuel.onadeji@natview.ng"
+      # - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard (dev only)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt/acme.json:/letsencrypt/acme.json
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
