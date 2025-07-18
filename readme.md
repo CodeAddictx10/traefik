@@ -1,5 +1,6 @@
+## TODO
+. Update readme file
 # NOTE
-
 1. Create a docker network
 
 ```
